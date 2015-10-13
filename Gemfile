@@ -30,3 +30,5 @@
  gem 'turbolinks'
  
  gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
+ 
+ gem 'bootstrap-sass'
