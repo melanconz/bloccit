@@ -160,7 +160,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bootstrap-sass
+  bootstrap-sass (~> 3.3.5)
   coffee-rails (~> 4.1.0)
   jquery-rails
   pg
@@ -168,7 +168,7 @@ DEPENDENCIES
   rails (= 4.2.4)
   rails_12factor
   rspec-rails (~> 3.0)
-  sass-rails (~> 5.0)
+  sass-rails (>= 5.0)
   sqlite3
   turbolinks
   tzinfo-data
