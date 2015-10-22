@@ -107,4 +107,17 @@ let (:my_post) { Post.create!(title: RandomData.random_sentence, body: RandomDat
          expect(response).to redirect_to my_post
      end
  end
+ 
+ describe "DELETE destroy" do
+     it "delete the post" do
+         delete :destroy, {id: my_post}
+         count = Post.where({id: my_post.ed}).size
+         expect(count).to eq 0
+     end
+     
+     it "redirects to post index" do
+         delete :destroy, {id: my_post.id}
+         expect(response).to redirect_to posts_path
+     end
+ end
 end
