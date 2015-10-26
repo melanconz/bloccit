@@ -2,7 +2,7 @@
 
  RSpec.describe User, :type => :model do
    pending "add some examples to (or delete) #{__FILE__}"
-   let(:user) { User.create!(name: "Bloccit User", email: "user@bloccit.com", password: "password") }
+   let(:user) { User.create!(name: "bloccit user", email: "user@bloccit.com", password: "password") }
    # Shoulda tests for name
    it { should validate_presence_of(:name) }
    it { should validate_length_of(:name).is_at_least(1) }
@@ -45,6 +45,13 @@
      it "should be an invalid user due to incorrectly formatted email address" do
        expect(user_with_invalid_email_format).to_not be_valid
      end
- 
    end
- end
+   
+   describe "name callback" do
+    let(:name) { User.new(name: "zachary melancon", email: "user@bloccit.com") }
+    it "should capitalize name" do
+     expect(name).to eq("Zachary Melancon")
+    end
+   end
+   
+ end 
