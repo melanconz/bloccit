@@ -11,15 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151031013920) do
-
-  create_table "advertisements", force: :cascade do |t|
-    t.string   "title"
-    t.text     "copy"
-    t.integer  "price"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+ActiveRecord::Schema.define(version: 20151031165531) do
 
   create_table "comments", force: :cascade do |t|
     t.text     "body"
@@ -69,24 +61,28 @@ ActiveRecord::Schema.define(version: 20151031013920) do
   add_index "posts", ["topic_id"], name: "index_posts_on_topic_id"
   add_index "posts", ["user_id"], name: "index_posts_on_user_id"
 
-  create_table "questions", force: :cascade do |t|
-    t.string   "title"
-    t.text     "body"
-    t.boolean  "resolved"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "sponsored_posts", force: :cascade do |t|
-    t.string   "title"
-    t.text     "body"
-    t.integer  "price"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table "rate", force: :cascade do |t|
+    t.integer  "rating_id"
     t.integer  "topic_id"
+    t.integer  "post_id"
+    t.integer  "ratingable_id"
+    t.string   "ratingable_type"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
-  add_index "sponsored_posts", ["topic_id"], name: "index_sponsored_posts_on_topic_id"
+  add_index "rate", ["post_id"], name: "index_rate_on_post_id"
+  add_index "rate", ["rating_id"], name: "index_rate_on_rating_id"
+  add_index "rate", ["ratingable_type", "ratingable_id"], name: "index_rate_on_ratingable_type_and_ratingable_id"
+  add_index "rate", ["topic_id"], name: "index_rate_on_topic_id"
+
+  create_table "ratings", force: :cascade do |t|
+    t.string  "name"
+    t.integer "ratingable_id"
+    t.string  "ratingable_type"
+  end
+
+  add_index "ratings", ["ratingable_type", "ratingable_id"], name: "index_ratings_on_ratingable_type_and_ratingable_id"
 
   create_table "topics", force: :cascade do |t|
     t.string   "name"

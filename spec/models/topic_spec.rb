@@ -7,7 +7,8 @@ RSpec.describe Topic, type: :model do
   it { should have_many(:posts) }
   it { should have_many(:labelings) }
   it { should have_many(:labels).through(:labelings) }
-  
+  it { should have_many(:rates) }
+  it { should have_many(:ratings).through(:rates) }
   describe "attributes" do
       it "should respond to name" do
           expect(topic).to respond_to(:name)

@@ -7,11 +7,17 @@
   <div class="row">
     <div class="col-md-8">
       <%= render partial: "labels/list", locals: { labels: @post.labels } %>
+      
+    </div>
+  </div>
+  <br />
+   <div class="row">
+    <div class="col-md-8">
+      <%= render partial: "ratings/display", locals: { ratings: @post.ratings } %>
       <br />
     </div>
   </div>
   <br />
- 
  <div class="row">
    <div class="col-md-8">
      <p><%= @post.body %></p>
