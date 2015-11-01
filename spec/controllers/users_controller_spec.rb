@@ -1,7 +1,9 @@
 require 'rails_helper'
+include RandomData
 
 RSpec.describe UsersController, type: :controller do
-
+    let(:my_post) { create(:post) }
+    let(:my_user) { create(:user) }
     let (:new_user_attributes) do
         {
             name: "BlocHead",
@@ -83,4 +85,26 @@ RSpec.describe UsersController, type: :controller do
            expect(assigns(:user)).to eq(factory_user)
        end
    end
+   
+    describe "GET show" do
+      it "returns http success" do
+        get :show, {id: my_user.id}
+        expect(response).to have_http_status(:success)
+      end
+
+      it "renders the #show view" do
+        get :show, {id: my_user.id}
+        expect(response).to render_template :show
+      end
+
+      it "assigns my_user to @user" do
+        get :show, {id: my_user.id}
+        expect(assigns(:user)).to eq(my_user)
+      end
+      
+      it "should contain my_user favorites" do
+        get :show, {id: my_user.id}
+        expect(user.favorites).not_to eq(nil)
+    end
+
 end
