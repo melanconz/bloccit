@@ -21,4 +21,4 @@ RSpec.describe LabelsHelper, type: :helper do
      end
    end
 end
-end
+
