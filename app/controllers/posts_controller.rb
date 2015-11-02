@@ -1,11 +1,11 @@
 class PostsController < ApplicationController
   before_action :require_sign_in, except: :show
-  
   before_action :authorize_user, except: [:show, :new, :create]
+
   def show
     @post = Post.find(params[:id])
   end
-  
+
   def new
     @topic = Topic.find(params[:topic_id])
     @post = Post.new
@@ -15,10 +15,10 @@ class PostsController < ApplicationController
     @topic = Topic.find(params[:topic_id])
     @post = @topic.posts.build(post_params)
     @post.user = current_user
-    
+
     if @post.save
-      @post.ratings = Rating.update_ratings(params[:post][:ratings])
       @post.labels = Label.update_labels(params[:post][:labels])
+      @post.rating = Rating.update_rating(params[:post][:rating])
       flash[:notice] = "Post was saved."
       redirect_to [@topic, @post]
     else
@@ -30,42 +30,39 @@ class PostsController < ApplicationController
   def edit
     @post = Post.find(params[:id])
   end
-  
+
   def update
     @post = Post.find(params[:id])
-    @post.title = params[:post][:title]
-    @post.body = params[:post][:body]
     @post.assign_attributes(post_params)
- 
-   if @post.save
-     @post.ratings = Rating.update_ratings(params[:post][:ratings])
-     @post.labels = Label.update_labels(params[:post][:labels])
-     flash[:notice] = "Post was updated."
-     redirect_to [@post.topic, @post]
-   else
-     flash[:error] = "There was an error saving the post. Please try again."
-     render :edit
-   end
+
+    if @post.save
+      @post.labels = Label.update_labels(params[:post][:labels])
+      @post.rating = Rating.update_rating(params[:post][:rating])
+      flash[:notice] = "Post was updated."
+      redirect_to [@post.topic, @post]
+    else
+      flash[:error] = "There was an error saving the post. Please try again."
+      render :edit
+    end
   end
-  
+
   def destroy
     @post = Post.find(params[:id])
-    
+
     if @post.destroy
       flash[:notice] = "\"#{@post.title}\" was deleted successfully."
       redirect_to @post.topic
     else
-      flash[:error] = "There was an error deleting the post"
+      flash[:error] = "There was an error deleting the post."
       render :show
     end
   end
-  
+
   private
-  
   def post_params
     params.require(:post).permit(:title, :body)
   end
-  
+
   def authorize_user
     post = Post.find(params[:id])
     unless current_user == post.user || current_user.admin?
@@ -73,5 +70,4 @@ class PostsController < ApplicationController
       redirect_to [post.topic, post]
     end
   end
-  
 end
