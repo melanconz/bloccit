@@ -25,6 +25,8 @@
      resources :users, only: [:index, :show, :create, :update]
      resources :topics, only: [:index, :show]
      resources :topics, except: [:edit, :new]
+     resources :posts, only: [:show]
+     resources :comments, only: [:show]
     end
    end
  end
